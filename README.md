@@ -2,6 +2,6 @@
 
 Web scraping with Python
 
-- [ ] indeed
-- [ ] wanted
+- [x] indeed
+- [x] wanted
 - [ ] saramin
