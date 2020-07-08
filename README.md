@@ -7,7 +7,7 @@ Web scraping with Python
 - [x] wanted
 - [ ] saramin
 
-#### Web Page
-- [ ] Home
-- [ ] Search page
-- [ ] Result Page
+#### Web Page Basic
+- [x] Home
+- [x] Search page
+- [x] Result Page
