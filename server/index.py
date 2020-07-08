@@ -33,17 +33,18 @@ def report():
   word = request.args.get('word')
   if word:
     word = word.lower()
-    fromDb = db.get(word)
-    if fromDb:
-      jobs = fromDb
+    existingJobs = db.get(word)
+    if existingJobs:
+      jobs = existingJobs
     else:
       jobs = get_jobs(word)
       db[word] = jobs
   else:
     return redirect('/')
   return render_template('report.html', 
-  searching_by=word,
-  resultsNumber=len(jobs),
+    searching_by=word,
+    resultsNumber=len(jobs),
+    jobs=jobs,
   )
   
 
