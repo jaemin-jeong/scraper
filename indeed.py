@@ -8,6 +8,7 @@ def get_URL(str):
 
 def get_last_page(str):
     URL = get_URL(str)
+    # print(URL)
     result = requests.get(URL)
     soup = BeautifulSoup(result.text, 'html.parser')
     pagination = soup.find('div', {'class': 'pagination'})
@@ -38,15 +39,15 @@ def extract_job(html):
            'link': f'https://kr.indeed.com/viewjob?jk={job_id}'}
 
 
-def extract_jobs(last_page):
+def extract_jobs(last_page, str):
     jobs = []
     URL = get_URL(str)
     for n in range(last_page):
         print(f'{n + 1}번째 페이지 출력')
-        result = requests.get(f'{URL}&start={n * LIMIT}')
+        result = requests.get(URL)
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': 'jobsearch-SerpJobCard'})
-
+        print(URL)
         for result in results:
             job = extract_job(result)
             jobs.append(job)
@@ -56,5 +57,5 @@ def extract_jobs(last_page):
 
 def get_jobs(word):
   last_page = get_last_page(word)
-  jobs = extract_jobs(last_page)
+  jobs = extract_jobs(last_page, word)
   return jobs
