@@ -2,10 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 
 LIMIT = 50
-URL = f'https://kr.indeed.com/jobs?q=node.js&limit={LIMIT}&radius=25'
 
+def get_URL(str):
+  return f'https://kr.indeed.com/jobs?q={str}&limit={LIMIT}&radius=25'
 
-def get_last_page():
+def get_last_page(str):
+    URL = get_URL(str)
     result = requests.get(URL)
     soup = BeautifulSoup(result.text, 'html.parser')
     pagination = soup.find('div', {'class': 'pagination'})
@@ -38,6 +40,7 @@ def extract_job(html):
 
 def extract_jobs(last_page):
     jobs = []
+    URL = get_URL(str)
     for n in range(last_page):
         print(f'{n + 1}번째 페이지 출력')
         result = requests.get(f'{URL}&start={n * LIMIT}')
@@ -51,7 +54,7 @@ def extract_jobs(last_page):
     return jobs
 
 
-def get_jobs():
-  last_page = get_last_page()
+def get_jobs(word):
+  last_page = get_last_page(word)
   jobs = extract_jobs(last_page)
   return jobs
