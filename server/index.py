@@ -27,17 +27,14 @@ def home():
 def report():
   word = request.args.get('word')
   if word:
-    # 대소문자 통일하기 위해 입력받은 단어를 소문자로 변환시킴
     word = word.lower()
-    # db에 word와 동일한 게 있는지 확인하기 위해 변수 선언 및 할당
     existingJobs = db.get(word)
-    # existingJobs이 true면 jobs에 해당 값을 할당
     if existingJobs:
       jobs = existingJobs
-    # existingJobs이 false면 id_get_jobs(), wt_get_jobs()를 통해 jobs에 값을 할당
     else:
       jobs = id_get_jobs(word)
-      jobs.append(wt_get_jobs(word))
+      if wt_get_jobs(word):
+        jobs = jobs + wt_get_jobs(word)
       db[word] = jobs
   else:
     return redirect('/')
@@ -63,13 +60,5 @@ def export():
     logger = logging.getLogger('GET LOGGER')
     logger.error('Failed to do something: ' + str(e))
     return redirect('/')
-
-# @app.route('/contact')
-# def contact():
-#   return 'contact me!'
-
-# @app.route('/<username>')
-# def username(username):
-#   return f'Hello your name is {username}!'
 
 app.run(host='localhost')
