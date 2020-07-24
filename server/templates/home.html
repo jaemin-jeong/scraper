@@ -2,12 +2,47 @@
 <html>
   <head>
     <title>Job Search</title>
+    <style>
+      body{
+        background-color: lightblue;
+      }
+      h1{
+        color: white;
+        text-align: center; 
+        margin-top: 200px;
+      }
+      input {
+        width: 400px;
+        border-style: solid;
+        border-color: cadetblue;
+        padding: 10px 20px;
+        margin: 5px 0;
+        box-sizing: border-box;
+      }
+      input:focus{
+        background-color: lightgrey;
+      }
+      button {
+        width: 400px;
+        padding: 12px 0;
+        margin: 5px;
+        font-size: 15px;
+        cursor: pointer;
+        border: none;
+        background-color: black;
+        color: white;
+        height: auto;
+      }
+    </style>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}"> -->
   </head>
   <body>
     <h1>Job Search</h1>
-    <form action='/report' method='get'>
+    <form action='/report' method='get' style="text-align: center;">
       <input placeholder="Search for a job" required name='word'>
-      <button>Search</button>
+      <div>
+        <button>Search</button>
+      </div>
     </form>
   </body>
 </html>
