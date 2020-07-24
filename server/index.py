@@ -1,8 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
 import logging
-# from exporter import save_to_file
-# from ..indeed import get_jobs 
-
 
 if __name__ == '__main__':
     if __package__ is None:
@@ -10,10 +7,12 @@ if __name__ == '__main__':
         from os import path
         print(path.dirname( path.dirname( path.abspath(__file__) ) ))
         sys.path.append(path.dirname( path.dirname( path.abspath(__file__) ) ))
-        from indeed import get_jobs
+        from indeed import get_jobs as id_get_jobs
+        from wanted import get_jobs as wt_get_jobs
         from exporter import save_to_file
     else:
-        from ..indeed import get_jobs
+        from ..indeed import get_jobs as id_get_jobs
+        from ..wanted import get_jobs as wt_get_jobs
         from ..exporter import save_to_file
 
 app = Flask('index')
@@ -24,14 +23,6 @@ db = {}
 def home():
   return render_template('home.html')
 
-# @app.route('/contact')
-# def contact():
-#   return 'contact me!'
-
-# @app.route('/<username>')
-# def username(username):
-#   return f'Hello your name is {username}!'
-
 @app.route('/report')
 def report():
   word = request.args.get('word')
@@ -41,7 +32,9 @@ def report():
     if existingJobs:
       jobs = existingJobs
     else:
-      jobs = get_jobs(word)
+      jobs = id_get_jobs(word)
+      if wt_get_jobs(word):
+        jobs = jobs + wt_get_jobs(word)
       db[word] = jobs
   else:
     return redirect('/')
@@ -67,6 +60,5 @@ def export():
     logger = logging.getLogger('GET LOGGER')
     logger.error('Failed to do something: ' + str(e))
     return redirect('/')
-
 
 app.run(host='localhost')
