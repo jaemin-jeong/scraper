@@ -5,13 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
-# # load config.json file
-# with open('config.json', 'r') as conf_f:
-#   config = json.load(conf_f)
+# load config.json file
+with open('config.json', 'r') as conf_f:
+  config = json.load(conf_f)
 
 def driver_init(URL):
-  # chromedriver = config['DEFAULT']['CHROME_DRIVER_PATH']
-  chromedriver = '/opt/WebDriver/bin/chromedriver'
+  chromedriver = config['DEFAULT']['CHROME_DRIVER_PATH']
   driver = webdriver.Chrome(chromedriver)
   driver.get(URL)
 
@@ -21,12 +20,10 @@ def driver_init(URL):
   finally:
     driver.quit() # headlesshtml 적용시키면 삭제하기
 
-  # page = driver.page_source
   soup = BeautifulSoup(page, 'lxml')
   main = soup.find('div', {'class':'_325-VFHw4I8HVltNqdJ89t'})
   entire = main.find('ul', {'class':'clearfix'})
   positions = entire.find_all('li')
-  print(positions)
   return positions
 
 

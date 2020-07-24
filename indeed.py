@@ -8,7 +8,6 @@ def get_URL(str):
 
 def get_last_page(str):
     URL = get_URL(str)
-    # print(URL)
     result = requests.get(URL)
     soup = BeautifulSoup(result.text, 'html.parser')
     pagination = soup.find('div', {'class': 'pagination'})
@@ -43,11 +42,11 @@ def extract_jobs(last_page, str):
     jobs = []
     URL = get_URL(str)
     for n in range(last_page):
-        print(f'{n + 1}번째 페이지 출력')
+        # print(f'{n + 1}번째 페이지 출력')
         result = requests.get(URL)
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': 'jobsearch-SerpJobCard'})
-        print(URL)
+        # print(URL)
         for result in results:
             job = extract_job(result)
             jobs.append(job)
